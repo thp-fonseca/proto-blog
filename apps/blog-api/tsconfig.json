@@ -1,0 +1,25 @@
+{
+  "extends": "@workspace/typescript-config/node.json",
+    "include": ["src/**/*", "@types/*.d.ts"],
+    "compilerOptions": {
+      "baseUrl": ".",
+      "outDir": "./dist",
+      "esModuleInterop": true,
+      "allowJs": true,
+      "checkJs": true,
+      "resolveJsonModule": true,
+      "declaration": true,
+      "removeComments": true,
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "allowSyntheticDefaultImports": true,
+      "sourceMap": true,
+      "incremental": true,
+      "skipLibCheck": true,
+      "strictNullChecks": true,
+      "forceConsistentCasingInFileNames": true,
+      "noImplicitAny": false,
+      "strictBindCallApply": false,
+      "noFallthroughCasesInSwitch": false
+    }
+  }
