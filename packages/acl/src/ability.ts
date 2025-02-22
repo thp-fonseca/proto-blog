@@ -1,54 +1,51 @@
-import { AbilityBuilder, createMongoAbility, type MongoAbility, type InferSubjects } from "@casl/ability";
+import {
+  AbilityBuilder,
+  CreateAbility,
+  createMongoAbility,
+  MongoAbility,
+} from '@casl/ability'
+import { z } from 'zod'
 
-export enum Action {
-  Manage = "manage",
-  Create = "create",
-  Read   = "read",
-  Update = "update",
-  Delete = "delete",
-}
+import { User } from './models/user'
+import { permissions } from './permissions'
+import { commentSubject } from './subjects/comment'
+import { postSubject } from './subjects/post'
+import { userSubject } from './subjects/user'
 
-export class Post {
-  id: string;
-  authorId: string;
+export * from './models/comment'
+export * from './models/post'
+export * from './models/user'
+export * from './roles'
 
-  constructor(id: string, authorId: string) {
-    this.id = id;
-    this.authorId = authorId;
-  }
-}
+const appAbilitiesSchema = z.union([
+  postSubject,
+  userSubject,
+  commentSubject,
+  z.tuple([z.literal('manage'), z.literal('all')]),
+])
 
-export class Comment {
-  id: string;
-  authorId: string;
-  post: Post;
+type AppAbilities = z.infer<typeof appAbilitiesSchema>
 
-  constructor(id: string, authorId: string, post: Post) {
-    this.id = id;
-    this.authorId = authorId;
-    this.post = post;
-  }
-}
+export type AppAbility = MongoAbility<AppAbilities>
+export const createAppAbility = createMongoAbility as CreateAbility<AppAbility>
 
-export type Subjects = InferSubjects<typeof Post | typeof Comment> | "all";
+export function defineAbilityFor(user: User) {
+  const builder = new AbilityBuilder(createAppAbility)
 
-export type AppAbility = MongoAbility<[Action, Subjects]>;
-
-export const createAbility = (user: User): AppAbility => {
-  const { can, build } = new AbilityBuilder<AppAbility>(createMongoAbility);
-
-  if (user.role === "admin") {
-    can(Action.Manage, "all");
-  } else {
-    can(Action.Read, "all");
-    can(Action.Create, Post);
-    can(Action.Update, Post, { authorId: user.id });
-    can(Action.Delete, Post, { authorId: user.id });
-    can(Action.Create, Comment);
-    can(Action.Update, Comment, { authorId: user.id });
-    can(Action.Delete, Comment, { authorId: user.id });
-    can(Action.Delete, Comment, { post: { authorId: user.id } });
+  if (typeof permissions[user.role] !== 'function') {
+    throw new Error(`Permissions for role ${user.role} not found.`)
   }
 
-  return build();
-};
+  permissions[user.role](user, builder)
+
+  const ability = builder.build({
+    detectSubjectType(subject) {
+      return subject.__typename
+    },
+  })
+
+  ability.can = ability.can.bind(ability)
+  ability.cannot = ability.cannot.bind(ability)
+
+  return ability
+}
