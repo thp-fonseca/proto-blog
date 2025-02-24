@@ -6,16 +6,16 @@ import {
 } from '@casl/ability'
 import { z } from 'zod'
 
-import { User } from './models/user'
-import { permissions } from './permissions'
-import { commentSubject } from './subjects/comment'
-import { postSubject } from './subjects/post'
-import { userSubject } from './subjects/user'
+import { User } from './models/user.js'
+import { permissions } from './permissions.js'
+import { commentSubject } from './subjects/comment.js'
+import { postSubject } from './subjects/post.js'
+import { userSubject } from './subjects/user.js'
 
-export * from './models/comment'
-export * from './models/post'
-export * from './models/user'
-export * from './roles'
+export * from './models/comment.js'
+export * from './models/post.js'
+export * from './models/user.js'
+export * from './roles.js'
 
 const appAbilitiesSchema = z.union([
   postSubject,

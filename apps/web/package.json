@@ -11,9 +11,14 @@
     "env:load": "dotenv -e ../../.env --"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.66.9",
+    "@workspace/acl": "workspace:*",
+    "@workspace/env": "workspace:*",
     "@workspace/types": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "cookies-next": "^5.1.0",
     "framer-motion": "^12.4.7",
+    "ky": "^1.7.5",
     "lucide-react": "0.456.0",
     "next": "^15.1.0",
     "next-intl": "^3.26.5",

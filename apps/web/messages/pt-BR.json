@@ -48,5 +48,18 @@
         "title": "Código-fonte"
       }
     }
+  },
+  "AuthForm": {
+    "signInTitle": "Entrar",
+    "signInDescription": "Digite seu e-mail e senha para acessar sua conta",
+    "signInFailed": "Falha ao entrar!",
+    "emailLabel": "E-mail",
+    "emailPlaceholder": "nome@exemplo.com",
+    "passwordLabel": "Senha",
+    "forgotPassword": "Esqueceu sua senha?",
+    "signInButton": "Entrar com e-mail",
+    "createAccount": "Criar nova conta",
+    "hidePassword": "Ocultar senha",
+    "showPassword": "Mostrar senha"
   }
 }

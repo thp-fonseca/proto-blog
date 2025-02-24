@@ -1,5 +1,5 @@
 import HeroImage from "@/components/hero-image"
-import AuthSection from "@/components/auth-section"
+import HomeSection from "@/components/home-section"
 
 export default function Home() {
   return (
@@ -8,7 +8,7 @@ export default function Home() {
         <HeroImage />
       </div>
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8">
-        <AuthSection />
+        <HomeSection />
       </div>
     </div>
   )

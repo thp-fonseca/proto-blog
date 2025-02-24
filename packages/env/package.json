@@ -2,9 +2,8 @@
   "name": "@workspace/env",
   "version": "0.0.0",
   "private": true,
-  "main": "index.ts",
-  "types": "index.ts",
-  "type": "module",
+  "main": "index.mjs",
+  "types": "index.d.ts",
   "devDependencies": {
     "@workspace/eslint-config": "workspace:*",
     "@workspace/prettier": "workspace:*",

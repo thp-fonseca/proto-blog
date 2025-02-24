@@ -1,12 +1,15 @@
 {
-    "extends": "@workspace/typescript-config/react-library.json",
-    "compilerOptions": {
-      "baseUrl": ".",
-      "paths": {
-        "@workspace/acl/*": ["./src/*"]
-      }
-    },
-    "include": ["."],
-    "exclude": ["node_modules", "dist"]
+  "extends": "@workspace/typescript-config/library.json",
+  "compilerOptions": {
+    "target": "ES6",
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
-  

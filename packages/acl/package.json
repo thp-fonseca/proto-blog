@@ -2,20 +2,10 @@
   "name": "@workspace/acl",
   "version": "0.0.1",
   "private": true,
-  "main": "./src/ability.ts",
-  "types": "./src/ability.ts",
-  "scripts": {
-    "lint": "eslint .",
-    "generate:component": "turbo gen react-component"
-  },
   "devDependencies": {
-    "@types/node": "^20.5.2",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
     "@workspace/eslint-config": "workspace:*",
-    "@workspace/typescript-config": "workspace:*",
-    "react": "^18.2.0",
-    "typescript": "^5.1.6"
+    "@workspace/prettier": "workspace:*",
+    "@workspace/typescript-config": "workspace:*"
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",

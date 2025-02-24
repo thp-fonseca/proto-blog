@@ -3,8 +3,9 @@ import { Separator } from "@workspace/ui/components/separator"
 import { Button } from "@workspace/ui/components/button"
 import { useTranslations } from "next-intl"
 import TermsLinks from "./terms-links"
+import Link from "next/link"
 
-export default function AuthSection() {
+export default function HomeSection() {
   const t = useTranslations("HomePage")
   return (
     <div className="w-full max-w-md space-y-6 bg-white/10 backdrop-blur-lg rounded-lg p-8 shadow-xl">
@@ -47,7 +48,7 @@ export default function AuthSection() {
           </div>
         </div>
 
-        <Button className="w-full bg-primary hover:bg-primary/90 text-white">
+        <Button className="w-full text-gray-100 border-gray-600 text-black hover:bg-gray-300">
           {t("createAccount")}
         </Button>
 
@@ -57,10 +58,12 @@ export default function AuthSection() {
       </div>
 
       <div className="space-y-4">
-        <h3 className="font-medium text-gray-300">{t("alreadyHaveAccount")}</h3>
-        <Button variant="default" className="w-full border-gray-600 text-gray-300 hover:bg-gray-800">
-          {t("signIn")}
-        </Button>
+        <h3 className="font-medium text-gray-100">{t("alreadyHaveAccount")}</h3>
+        <Link href="/auth/sign-in">
+          <Button variant="default" className="w-full border-gray-600 text-black hover:bg-gray-300">
+            {t("signIn")}
+          </Button>
+        </Link>
       </div>
     </div>
   )

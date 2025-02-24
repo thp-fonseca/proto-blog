@@ -37,7 +37,7 @@ export default function LocaleSwitcherSelect({
   return (
     <label
       className={cn(
-        'relative text-gray-200 border border-gray-600 bg-primary/80 rounded-md',
+        'relative text-gray-800 border border-gray-600 bg-primary/80 rounded-md',
         isPending && 'transition-opacity [&:disabled]:opacity-30'
       )}
     >

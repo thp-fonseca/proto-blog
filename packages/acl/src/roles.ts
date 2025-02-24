@@ -6,3 +6,8 @@ export const roleSchema = z.union([
 ])
 
 export type Role = z.infer<typeof roleSchema>
+
+export enum RoleEnum {
+  ADMIN,
+  MEMBER
+}
