@@ -4,9 +4,7 @@
     "compilerOptions": {
       "baseUrl": ".",
       "outDir": "./dist",
-      "esModuleInterop": true,
-      "allowJs": true,
-      "checkJs": true,
+      "strictPropertyInitialization": false,
       "resolveJsonModule": true,
       "declaration": true,
       "removeComments": true,
@@ -16,10 +14,7 @@
       "sourceMap": true,
       "incremental": true,
       "skipLibCheck": true,
-      "strictNullChecks": true,
-      "forceConsistentCasingInFileNames": true,
       "noImplicitAny": false,
-      "strictBindCallApply": false,
       "noFallthroughCasesInSwitch": false
     }
   }
