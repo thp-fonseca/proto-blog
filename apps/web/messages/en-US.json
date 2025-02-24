@@ -1,0 +1,52 @@
+{
+  "Manifest": {
+    "name": "Vulter App",
+    "description": "Social media app to share photos and videos."
+  },
+  "HomePage": {
+    "happeningNow": "Happening now",
+    "joinToday": "Join today.",
+    "signUpWithGoogle": "Sign up with Google",
+    "signUpWithApple": "Sign up with Apple",
+    "or": "or",
+    "createAccount": "Create account",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy",
+    "cookieUse": "Cookie Use",
+    "bySigningUp": "By signing up, you agree to our <termsOfService> terms </termsOfService> and <privacyPolicy>private policies</privacyPolicy>, including <cookieUse>Cookies</cookieUse>.",
+    "alreadyHaveAccount": "Already have an account?",
+    "signIn": "Sign in"
+  },
+  "Error": {
+    "description": "<p>We've unfortunately encountered an error.</p><p>You can try to <retry>reload the page</retry> you were visiting.</p>",
+    "title": "Something went wrong!"
+  },
+  "NotFoundPage": {
+    "description": "Please double-check the browser address bar or use the navigation to go to a known page.",
+    "title": "Page not found"
+  },
+  "LocaleLayout": {
+    "title": "next-intl example"
+  },
+  "LocaleSwitcher": {
+    "label": "Select Language",
+    "locale": "{locale, select, pt_BR {🇧🇷 Português} en_US {🇺🇸 English} other {Unknown}}"
+  },
+  "Navigation": {
+    "home": "Home"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "Learn more about next-intl in the official docs.",
+        "href": "https://next-intl.dev",
+        "title": "Docs"
+      },
+      "source": {
+        "description": "Browse the source code of this example on GitHub.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "Source code"
+      }
+    }
+  }
+}

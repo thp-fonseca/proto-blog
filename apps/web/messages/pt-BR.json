@@ -1,0 +1,52 @@
+{
+  "Manifest": {
+    "name": "Vulter App",
+    "description": "App de social mídia para compartilhar fotos e vídeos."
+  },
+  "HomePage": {
+    "happeningNow": "Acontecendo agora",
+    "joinToday": "Junte-se hoje.",
+    "signUpWithGoogle": "Inscreva-se com o Google",
+    "signUpWithApple": "Inscreva-se com a Apple",
+    "or": "ou",
+    "createAccount": "Criar conta",
+    "termsOfService": "Termos de Serviço",
+    "privacyPolicy": "Política de Privacidade",
+    "cookieUse": "Uso de Cookies",
+    "bySigningUp": "Ao se inscrever, você concorda com nossos <termsOfService> termos de uso </termsOfService> e <privacyPolicy>politica de privacidade</privacyPolicy>, incluindo <cookieUse>Cookie de uso</cookieUse>.",
+    "alreadyHaveAccount": "Já possui uma conta?",
+    "signIn": "Entrar"
+  },
+  "Error": {
+    "description": "<p>Infelizmente, encontramos um erro.</p><p>Você pode tentar <retry>recarregar a página</retry> que estava visitando.</p>",
+    "title": "Algo deu errado!"
+  },
+  "NotFoundPage": {
+    "description": "Por favor, verifique o endereço na barra do navegador ou use a navegação para ir a uma página conhecida.",
+    "title": "Página não encontrada"
+  },
+  "LocaleLayout": {
+    "title": "Exemplo do next-intl"
+  },
+  "LocaleSwitcher": {
+    "label": "Mudar idioma",
+    "locale": "{locale, select, pt_BR {🇧🇷 Português} en_US {🇺🇸 Inglês} other {Desconhecido}}"
+  },
+  "Navigation": {
+    "home": "Início"
+  },
+  "PageLayout": {
+    "links": {
+      "docs": {
+        "description": "Saiba mais sobre o next-intl na documentação oficial.",
+        "href": "https://next-intl.dev",
+        "title": "Documentação"
+      },
+      "source": {
+        "description": "Navegue pelo código-fonte deste exemplo no GitHub.",
+        "href": "https://github.com/amannn/next-intl/tree/main/examples/example-app-router",
+        "title": "Código-fonte"
+      }
+    }
+  }
+}
