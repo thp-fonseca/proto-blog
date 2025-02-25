@@ -7,6 +7,7 @@ import { SessionsModule } from './modules/sessions/sessions.module'
 import { MongooseModule } from '@nestjs/mongoose'
 import { JwtModule } from '@nestjs/jwt'
 import { UsersModule } from './modules/users/users.module';
+import { PostsModule } from './modules/posts/posts.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UsersModule } from './modules/users/users.module';
       signOptions: { expiresIn: '7d' },
     }),
     UsersModule,
+    PostsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

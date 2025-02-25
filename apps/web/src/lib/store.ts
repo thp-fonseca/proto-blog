@@ -1,18 +1,34 @@
-import { create } from "zustand"
+import { RoleEnum } from '@workspace/acl';
 
-interface UserState {
-  user: {
-    id: string
-    username: string
-  } | null
-  isLoggedIn: boolean
-  login: (user: { id: string; username: string }) => void
-  logout: () => void
+import {create} from 'zustand';
+import { createJSONStorage, persist } from "zustand/middleware";
+
+type User = {
+  name: string,
+  role: RoleEnum,
+  email: string,
+  id: string,
+  avatarUrl: string | null
 }
 
-export const useUserStore = create<UserState>((set) => ({
-  user: null,
-  isLoggedIn: false,
-  login: (user) => set({ user, isLoggedIn: true }),
-  logout: () => set({ user: null, isLoggedIn: false }),
-}))
+type SessionStoreActions = {
+  user: User | null;
+  setUser: (user: User) => void;
+  clearUser: () => void;
+}
+
+const useUserSession = create<SessionStoreActions>()(
+  persist(
+    (set) => ({
+      user: null,
+      setUser: (user) => set({ user }),
+      clearUser: () => set({ user: null }),
+    }),
+    {
+      name: "user-session-storage",
+      storage: createJSONStorage(() => localStorage),
+    },
+  )
+);
+
+export default useUserSession;

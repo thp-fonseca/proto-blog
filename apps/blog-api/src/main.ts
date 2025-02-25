@@ -10,7 +10,7 @@ import { applySecurity } from './infra/middlewares/security'
 import { setupSwagger } from './infra/middlewares/swagger'
 
 async function bootstrap() {
-  const nodeEnv = environment.NODE_ENV || 'development'
+  const nodeEnv = environment.NODE_ENV ?? 'development'
   const port = environment.PORT ?? 3001
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger:

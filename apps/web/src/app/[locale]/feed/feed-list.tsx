@@ -1,37 +1,56 @@
+"use client"
 
+import { useInfiniteQuery } from "@tanstack/react-query"
 import { Avatar, AvatarImage, AvatarFallback } from "@workspace/ui/components/avatar"
 import { Button } from "@workspace/ui/components/button"
 import { Card, CardHeader, CardContent, CardFooter } from "@workspace/ui/components/card"
 import { Heart, MessageCircle, Share2 } from "lucide-react"
-
-const posts = [
-  {
-    id: 1,
-    author: {
-      name: "John Doe",
-      avatar: "/avatars/01.png",
-    },
-    content: "Just finished a great workout! 💪 #FitnessJourney",
-    likes: 15,
-    comments: 3,
-  },
-  {
-    id: 2,
-    author: {
-      name: "Jane Smith",
-      avatar: "/avatars/02.png",
-    },
-    content: "Excited to announce my new project! Stay tuned for more details. 🚀",
-    likes: 32,
-    comments: 8,
-  },
-  // Add more posts as needed
-]
+import { formatDistanceToNow } from "date-fns"
+import { getPosts } from "@/http/get-posts"
+import { useEffect } from "react"
 
 export function FeedList() {
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfiniteQuery(
+    {
+      queryKey: ["posts"],
+      queryFn: getPosts,
+      initialPageParam: 1,
+      getNextPageParam: (lastPage, allPages, lastPageParam) => {
+        if (lastPage.data.length === 0) {
+          return undefined
+        }
+        return lastPageParam + 1
+      }
+    }
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (
+        window.innerHeight + window.scrollY >= document.body.offsetHeight &&
+        hasNextPage &&
+        !isFetchingNextPage
+      ) {
+        fetchNextPage();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  if (error) return <div>Error loading posts: {error.message}</div>;
+
   return (
     <div className="space-y-6">
-      {posts.map((post) => (
+      {data?.pages.map((page) =>
+        page.data.map((post) => ((
         <Card key={post.id}>
           <CardHeader>
             <div className="flex items-center space-x-4">
@@ -41,7 +60,10 @@ export function FeedList() {
               </Avatar>
               <div>
                 <p className="font-semibold">{post.author.name}</p>
-                <p className="text-sm text-muted-foreground">2 hours ago</p>
+                <p className="font-semibold">{post.title}</p>
+                <p className="text-sm text-muted-foreground">
+                  {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
+                </p>
               </div>
             </div>
           </CardHeader>
@@ -63,8 +85,7 @@ export function FeedList() {
             </Button>
           </CardFooter>
         </Card>
-      ))}
+      ))))}
     </div>
   )
 }
-

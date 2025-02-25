@@ -23,13 +23,12 @@ export async function signInWithEmailAndPassword(data: FormData) {
   }
 
   const { username, password } = result.data
-  console.log(username, password)
+
   try {
     const { token } = await signInWithPassword({
       username,
       password,
     })
-    console.log(token)
     const c = await cookies()
     c.set('token', token, {
       path: '/',

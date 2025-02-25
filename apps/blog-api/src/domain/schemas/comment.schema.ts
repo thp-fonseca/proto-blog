@@ -18,15 +18,20 @@ export class Comment {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users' 
+    ref: 'User' 
   })
   owner: User
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'posts'
+    ref: 'User'
   })
   post: Post
+
+  @Prop({
+    default: 0
+  })
+  likes: number
 
   @Prop({ default: Date.now })
   createdAt: Date

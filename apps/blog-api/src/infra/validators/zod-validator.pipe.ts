@@ -2,9 +2,8 @@ import {
   Injectable,
   PipeTransform,
   ArgumentMetadata,
-  BadRequestException,
 } from '@nestjs/common'
-import { AnyZodObject, SafeParseError } from 'zod'
+import { AnyZodObject, SafeParseError, ZodError } from 'zod'
 
 @Injectable()
 export class ZodValidationPipe implements PipeTransform {
@@ -17,7 +16,7 @@ export class ZodValidationPipe implements PipeTransform {
     const result = this.schema.safeParse(value)
     if (!result.success) {
       const e = result as SafeParseError<AnyZodObject>
-      throw new BadRequestException(e.error.format())
+      throw new ZodError(e.error.errors)
     }
     return result.data
   }

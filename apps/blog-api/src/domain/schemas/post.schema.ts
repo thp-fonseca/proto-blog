@@ -20,9 +20,19 @@ export class Post {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'users' 
+    ref: 'User' 
   })
   owner: User
+
+  @Prop({
+    default: 0
+  })
+  likes: number
+
+  @Prop({
+    default: 0
+  })
+  comments: number
 
   @Prop({ default: Date.now })
   createdAt: Date
