@@ -4,6 +4,9 @@
     "compilerOptions": {
       "baseUrl": ".",
       "outDir": "./dist",
+      "paths": {
+        "@workspace/acl": ["../acl/dist"]
+      },
       "strictPropertyInitialization": false,
       "resolveJsonModule": true,
       "declaration": true,

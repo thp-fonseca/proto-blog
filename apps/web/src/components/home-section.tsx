@@ -48,9 +48,11 @@ export default function HomeSection() {
           </div>
         </div>
 
-        <Button className="w-full text-gray-100 border-gray-600 text-black hover:bg-gray-300">
-          {t("createAccount")}
-        </Button>
+        <Link href="/auth/sign-up">
+          <Button variant="default" className="w-full text-gray-100 border-gray-600 text-black hover:bg-gray-300">
+            {t("createAccount")}
+          </Button>
+        </Link>
 
         <p className="text-xs text-gray-400">
           <TermsLinks t={t} />

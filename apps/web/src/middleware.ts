@@ -10,6 +10,15 @@ const intlMiddleware = createMiddleware(routing)
 export default async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname
 
+  // Check if the user is logged in by looking for an auth token in the cookies
+  const authToken = request.cookies.get("token")?.value
+
+  // If the user is logged in and trying to access the root path, redirect to /feed
+  if (authToken && pathname === "/") {
+    const locale = request.nextUrl.locale || defaultLocale
+    return NextResponse.redirect(new URL(`/${locale}/feed`, request.url))
+  }
+
   const pathnameIsMissingLocale = locales.every(
     (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`,
   )
@@ -23,5 +32,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next|.*\\..*).*)"],
+  matcher: ["/((?!api|_next|.*\\..*).*)", "/"],
 }

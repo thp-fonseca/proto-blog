@@ -24,7 +24,7 @@ export function SignInForm() {
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
     signInWithEmailAndPassword,
     () => {
-      router.push('/')
+      router.push('/feed')
     },
   )
 
@@ -52,7 +52,7 @@ export function SignInForm() {
                 id="email"
                 placeholder={t('emailPlaceholder')}
                 type="email"
-                name="email"
+                name="username"
                 autoCapitalize="none"
                 autoComplete="email"
                 autoCorrect="off"

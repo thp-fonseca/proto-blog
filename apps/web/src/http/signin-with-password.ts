@@ -1,7 +1,7 @@
 import { api } from './api-client'
 
 interface SignInWithPasswordRequest {
-  email: string
+  username: string
   password: string
 }
 
@@ -10,13 +10,13 @@ interface SignInWithPasswordResponse {
 }
 
 export async function signInWithPassword({
-  email,
+  username,
   password,
 }: SignInWithPasswordRequest) {
   const result = await api
     .post('sessions/password', {
       json: {
-        email,
+        username,
         password,
       },
     })

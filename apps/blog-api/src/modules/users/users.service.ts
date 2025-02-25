@@ -1,9 +1,13 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { Role } from '@workspace/acl'
+import { Role, RoleEnum } from '@workspace/acl'
 import { Model } from 'mongoose'
 import { User, UserDocument } from 'src/domain/schemas/user.schema'
-import { generateSalt, generatePasswordHash, comparePassword } from 'src/infra/crypto/crypto'
+import {
+  generateSalt,
+  generatePasswordHash,
+  comparePassword,
+} from 'src/infra/crypto/crypto'
 
 @Injectable()
 export class UsersService {
@@ -11,13 +15,19 @@ export class UsersService {
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>
   ) {}
 
-  async createUser(
-    name: string,
-    username: string,
-    avatarUrl: string,
-    password: string,
+  async createUser({
+    name,
+    username,
+    password,
+    avatarUrl,
+    role = RoleEnum.MEMBER,
+  }: {
+    name: string
+    username: string
+    password: string
+    avatarUrl?: string
     role?: Role
-  ): Promise<User> {
+  }): Promise<User> {
     const salt = generateSalt()
     const passwordHash = generatePasswordHash(password, salt)
 
@@ -33,12 +43,11 @@ export class UsersService {
     return newUser.save()
   }
 
-  async validateUser(username: string, password: string): Promise<boolean> {
-    const user = await this.userModel.findOne({ username }).exec();
-    if (!user) {
-      return false;
-    }
+  async getUserByUsername(username: string): Promise<User | null> {
+    return this.userModel.findOne({ username }).exec()
+  }
 
-    return comparePassword(password, user.passwordHash, user.salt);
+  async validateUser(user: User, password: string): Promise<boolean> {
+    return comparePassword(password, user.passwordHash, user.salt)
   }
 }

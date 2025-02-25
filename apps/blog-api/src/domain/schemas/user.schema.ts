@@ -1,19 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import { RoleEnum } from '@workspace/acl'
 import { HydratedDocument } from 'mongoose'
+import { genUUID } from 'src/infra/crypto/crypto'
 
 export type UserDocument = HydratedDocument<User>
 
 @Schema({timestamps: true, collection: "users" })
 export class User {
+  @Prop({ type: String, default: function getUUID() {
+    return genUUID()
+  }})
+  uuid: string
+  
   @Prop()
   name: string
 
   @Prop({ unique: true })
   username: string
 
-  @Prop()
-  avatarUrl: string
+  @Prop({ required: false })
+  avatarUrl?: string
 
   @Prop()
   passwordHash: string

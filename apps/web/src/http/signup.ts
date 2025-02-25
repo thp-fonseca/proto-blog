@@ -2,19 +2,19 @@ import { api } from './api-client'
 
 interface SignUpRequest {
   name: string
-  email: string
+  username: string
   password: string
 }
 
 export async function signUp({
   name,
-  email,
+  username,
   password,
 }: SignUpRequest): Promise<void> {
   await api.post('users', {
     json: {
       name,
-      email,
+      username,
       password,
     },
   })

@@ -14,5 +14,8 @@
   "packageManager": "pnpm@9.12.3",
   "engines": {
     "node": ">=20"
+  },
+  "resolutions": {
+    "typescript": "^5.7.3"
   }
 }

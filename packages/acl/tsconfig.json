@@ -2,12 +2,12 @@
   "extends": "@workspace/typescript-config/library.json",
   "compilerOptions": {
     "target": "ES6",
-    "outDir": "./dist",
-    "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "declaration": true
   },
   "include": [
     "src/**/*"
