@@ -1,22 +1,21 @@
-'use client';
-
-import useFetchUserProfile from "@/hooks/use-user-profile";
-import useSessionStore from '@/lib/store';
-
-import { CreatePost } from "./create-post"
+import useUserSession from "@/lib/store";
+import { CreatePost } from "../post/create-post/create-post"
 import { FeedList } from "./feed-list"
-import { useEffect } from "react";
+import { ability, auth } from "@/auth/auth";
 
-export default function FeedPage() {
-  const user = useSessionStore((state) => state.user);
-  const fetchUserProfile = useFetchUserProfile();
-
-  useEffect(() => {
-    if (!user) {
-      fetchUserProfile();
-    }
-  }, [user, fetchUserProfile]);
-
+export default async function FeedPage() {
+  const permissions = await ability()
+  const {user} = await auth()
+  const canDeletePost = permissions?.can('delete', 'Post')
+  const {setUser} = useUserSession();
+  setUser({
+    name: user.name ?? "",
+    avatarUrl: user.avatarUrl,
+    email: user.email,
+    role: user.role,
+    id: user.id,
+    permissions
+  })
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Your Feed</h1>
@@ -27,7 +26,7 @@ export default function FeedPage() {
         </section>
         <section>
           <h2 className="text-xl font-semibold mb-4">Recent Posts</h2>
-          <FeedList />
+          <FeedList permissions={{ canDeletePost }}/>
         </section>
       </div>
     </div>

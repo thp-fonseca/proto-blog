@@ -10,17 +10,31 @@ import { Input } from '@workspace/ui/components/input'
 import { Textarea } from "@workspace/ui/components/textarea";
 import type React from "react";
 
-import { createPostForm } from "./post/actions";
-import { useRouter } from "next/navigation";
+import { createPostForm } from "./actions";
 import { useFormState } from "@/hooks/use-form-state";
+import { useQueryClient } from "@tanstack/react-query";
+import useUserSession from "@/lib/store";
+import { useEffect, useState } from "react";
 
 export function CreatePost() {
-  const router = useRouter();
+  const queryClient = useQueryClient()
+  const user = useUserSession.getState().user;
+  const [fallback, setFallback] = useState("UN");
+
+  useEffect(() => {
+    if (user) {
+      setFallback(user.name.slice(0, 2)); // Define o fallback com o nome do usuário
+    }
+  }, [user]);
 
   const [{ errors, }, handleSubmit, isPending] = useFormState(
     createPostForm,
     () => {
-      router.push("/feed");
+      queryClient.invalidateQueries({
+        queryKey: [
+          "posts"
+        ]
+      })
     }
   );
 
@@ -43,7 +57,7 @@ export function CreatePost() {
       <div className="flex items-start space-x-4">
         <Avatar>
           <AvatarImage src="/avatars/01.png" alt="@username" />
-          <AvatarFallback>UN</AvatarFallback>
+          <AvatarFallback>{fallback}</AvatarFallback>
         </Avatar>
         <Textarea
           placeholder="What's on your mind?"

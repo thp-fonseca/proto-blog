@@ -42,3 +42,14 @@ export class Post {
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post)
+
+PostSchema.pre('deleteOne', async function(next) {
+  const post = await this.model.findOne(this.getFilter());
+  try {
+    if (post) {
+      await mongoose.model('comments').deleteMany({ post: post._id });
+    }
+  } finally {
+    next();
+  }
+});

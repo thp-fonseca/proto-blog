@@ -9,6 +9,7 @@ import Navigation from '@/components/navigation'
 const inter = Inter({ subsets: ["latin"] })
 
 import { Providers } from './providers'
+import { Sidebar } from '@/components/sidebar'
 
 export default async function RootLayout({
   children,
@@ -26,6 +27,7 @@ export default async function RootLayout({
         <Providers>
           <NextIntlClientProvider messages={messages}>
             <Navigation />
+            <Sidebar />
             {children}
           </NextIntlClientProvider>
         </Providers>

@@ -1,4 +1,4 @@
-import { RoleEnum } from '@workspace/acl';
+import { AppAbility, RoleEnum } from '@workspace/acl';
 
 import {create} from 'zustand';
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -9,12 +9,14 @@ type User = {
   email: string,
   id: string,
   avatarUrl: string | null
+  permissions: AppAbility
 }
 
 type SessionStoreActions = {
   user: User | null;
   setUser: (user: User) => void;
   clearUser: () => void;
+  logout: () => void;
 }
 
 const useUserSession = create<SessionStoreActions>()(
@@ -23,6 +25,10 @@ const useUserSession = create<SessionStoreActions>()(
       user: null,
       setUser: (user) => set({ user }),
       clearUser: () => set({ user: null }),
+      logout: () => {
+        set(() => ({ user: null }));
+        localStorage.removeItem("user-session-storage")
+      }
     }),
     {
       name: "user-session-storage",
