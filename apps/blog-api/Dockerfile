@@ -1,40 +1,39 @@
-FROM node:20.9-slim AS base
+FROM node:20-slim AS base
 
-FROM base AS builder
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
 
+ARG MONGODB_URI
+ENV MONGODB_URI=$MONGODB_URI
+
+ARG JWT_SECRET
+ENV JWT_SECRET=$JWT_SECRET
+
+ARG NODE_ENV
+ENV NODE_ENV=$NODE_ENV
+
+ARG PORT
+ENV PORT=$PORT
+
+RUN corepack enable && corepack prepare pnpm@9.12.3 --activate
+
+COPY . /app
 WORKDIR /app
 
-RUN yarn global add turbo@latest
+FROM base AS build
 
-COPY . .
+COPY . /usr/src/app
 
-RUN turbo prune blog-api --docker
+WORKDIR /usr/src/app
 
-FROM base AS installer
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --shamefully-hoist
 
-WORKDIR /app
+RUN rm -rf ./apps/web
 
-RUN yarn global add turbo@latest &&\
-    yarn global add pnpm
+RUN pnpm run -r build
 
-COPY --from=builder /app/out/json/ .
+WORKDIR /usr/src/app/apps/blog-api
 
-RUN pnpm install
+EXPOSE $PORT
 
-COPY --from=builder /app/out/full/ .
-
-RUN yarn turbo run build
-
-FROM base AS runner
-
-WORKDIR /http/app/apps/pkg
-
-COPY --from=installer /app/apps/blog-api/package*.json ./
-COPY --from=installer /app/apps/blog-api/node_modules ./node_modules/
-COPY --from=installer /app/apps/blog-api/dist ./dist/
-COPY --from=installer /app/config ../../config
-COPY --from=installer /app/packages ../../packages
-
-EXPOSE 3333
-
-CMD ["npm", "run", "start:prod"]
+CMD [ "pnpm", "start:prod" ]

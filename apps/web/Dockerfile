@@ -1,4 +1,7 @@
 FROM node:18-alpine AS base
+
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
  
 FROM base AS builder
 RUN apk update
@@ -24,16 +27,16 @@ RUN yarn global add pnpm && yarn global add turbo@latest
 COPY --from=builder /app/out/json/ .
 RUN pnpm install
 
-ARG NEXT_PUBLIC_API_URL
-ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
-
 # Build the project
 COPY --from=builder /app/out/full/ .
+
+RUN echo "NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL" > .env
+
 RUN pnpm turbo run build
  
 FROM base AS runner
 WORKDIR /app
- 
+
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

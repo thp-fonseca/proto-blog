@@ -16,6 +16,7 @@
     "@workspace/env": "workspace:*",
     "@workspace/types": "workspace:*",
     "@workspace/ui": "workspace:*",
+    "autoprefixer": "^10.4.0",
     "cookies-next": "^5.1.0",
     "date-fns": "^4.1.0",
     "framer-motion": "^12.4.7",
