@@ -1,8 +1,6 @@
-import { env } from '@workspace/env'
-
 export const environment = {
-  NODE_ENV: env.NODE_ENV,
-  PORT: env.PORT,
-  MONGODB_URI: env.MONGODB_URI,
-  JWT_SECRET: env.JWT_SECRET,
+  NODE_ENV: process.env.NODE_ENV,
+  PORT: process.env.PORT,
+  MONGODB_URI: process.env.MONGODB_URI,
+  JWT_SECRET: process.env.JWT_SECRET,
 }

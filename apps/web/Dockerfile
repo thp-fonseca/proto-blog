@@ -5,13 +5,11 @@ RUN apk update
 RUN apk add --no-cache libc6-compat
 # Set working directory
 WORKDIR /app
-# Replace <your-major-version> with the major version installed in your repository. For example:
-# RUN yarn global add turbo@^2
-RUN yarn global add turbo@^<your-major-version>
+
+RUN yarn global add turbo@latest
+
 COPY . .
- 
-# Generate a partial monorepo with a pruned lockfile for a target workspace.
-# Assuming "web" is the name entered in the project's package.json: { name: "web" }
+
 RUN turbo prune web --docker
  
 # Add lockfile and package.json's of isolated subworkspace
@@ -19,14 +17,19 @@ FROM base AS installer
 RUN apk update
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
- 
+
+RUN yarn global add pnpm && yarn global add turbo@latest
+
 # First install the dependencies (as they change less often)
 COPY --from=builder /app/out/json/ .
-RUN yarn install --frozen-lockfile
- 
+RUN pnpm install
+
+ARG NEXT_PUBLIC_API_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Build the project
 COPY --from=builder /app/out/full/ .
-RUN yarn turbo run build
+RUN pnpm turbo run build
  
 FROM base AS runner
 WORKDIR /app

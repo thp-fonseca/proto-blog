@@ -44,9 +44,6 @@ importers:
       '@workspace/acl':
         specifier: workspace:*
         version: link:../../packages/acl
-      '@workspace/env':
-        specifier: workspace:^
-        version: link:../../packages/env
       cookie-parser:
         specifier: ^1.4.7
         version: 1.4.7

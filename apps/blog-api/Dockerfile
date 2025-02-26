@@ -4,22 +4,37 @@ FROM base AS builder
 
 WORKDIR /app
 
-RUN yarn global add turbo@latest &&\
-    yarn global add pnpm
+RUN yarn global add turbo@latest
 
 COPY . .
 
-RUN pnpm install && turbo build --filter=blog-api
+RUN turbo prune blog-api --docker
 
-FROM base AS runner
+FROM base AS installer
 
 WORKDIR /app
 
 RUN yarn global add turbo@latest &&\
     yarn global add pnpm
 
-COPY --from=builder /app/ .
+COPY --from=builder /app/out/json/ .
+
+RUN pnpm install
+
+COPY --from=builder /app/out/full/ .
+
+RUN yarn turbo run build
+
+FROM base AS runner
+
+WORKDIR /http/app/apps/pkg
+
+COPY --from=installer /app/apps/blog-api/package*.json ./
+COPY --from=installer /app/apps/blog-api/node_modules ./node_modules/
+COPY --from=installer /app/apps/blog-api/dist ./dist/
+COPY --from=installer /app/config ../../config
+COPY --from=installer /app/packages ../../packages
 
 EXPOSE 3333
 
-CMD [ "pnpm", "dev" ]
+CMD ["npm", "run", "start:prod"]
