@@ -9,7 +9,6 @@ type User = {
   email: string,
   id: string,
   avatarUrl: string | null
-  permissions: AppAbility
 }
 
 type SessionStoreActions = {

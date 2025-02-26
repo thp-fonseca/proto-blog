@@ -22,6 +22,7 @@ import { Heart, Trash2 } from "lucide-react";
 import { deleteComment } from "@/http/delete-comment";
 import { ConfirmDialog } from "@/components/confirm-dialog";
 import useUserSession from "@/lib/store";
+import { defineAbilityFor } from "@workspace/acl";
 
 export default function PostComments() {
   const { user } = useUserSession();
@@ -29,9 +30,6 @@ export default function PostComments() {
   const queryClient = useQueryClient();
   const { postId } = useParams();
 
-  const { permissions } = user ?? {};
-  const canDeleteComment = permissions?.can("delete", "Comment");
-  console.log(canDeleteComment, user)
   const { data, error } = useQuery({
     queryKey: ["postComments", postId],
     queryFn: () => getPostComments({ postId }),
@@ -61,6 +59,16 @@ export default function PostComments() {
       console.error("Erro ao excluir comentário:", error);
     }
   };
+
+  if(!user)
+    return null
+
+  const permissions = defineAbilityFor({
+    id: user.id,
+    role: user.role,
+  })
+
+  const canDeleteComment = permissions?.can("delete", "Comment");
 
   return (
     <div className="space-y-6">

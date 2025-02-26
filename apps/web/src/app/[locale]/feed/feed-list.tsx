@@ -19,14 +19,14 @@ import { getPosts } from "@/http/get-posts";
 import { useEffect, useState } from "react";
 import { deletePost } from "@/http/delete-post";
 import { useRouter } from "next/navigation";
+import useUserSession from "@/lib/store";
+import { defineAbilityFor } from "@workspace/acl";
 
-export function FeedList({
-  permissions,
-}: Readonly<{ permissions: { canDeletePost: boolean } }>) {
+export function FeedList() {
   const [showCommentForm, setShowCommentForm] = useState<string | null>(null);
-  const { canDeletePost } = permissions;
   const router = useRouter();
-
+  const { user } = useUserSession();
+  
   const { data, error, fetchNextPage, hasNextPage, isFetchingNextPage } =
     useInfiniteQuery({
       queryKey: ["posts"],
@@ -61,6 +61,16 @@ export function FeedList({
 
   if (error) return <div>Error loading posts: {error.message}</div>;
 
+  if(!user)
+    return null
+
+  const permissions = defineAbilityFor({
+    id: user.id,
+    role: user.role,
+  })
+
+  const canDeletePost = permissions?.can("delete", "Post");
+
   return (
     <div className="space-y-6">
       {data?.pages.map((page) =>
@@ -88,7 +98,10 @@ export function FeedList({
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="cursor-auto w-full" onClick={() => router.push(`/post/${post.id}/comments`)}>
+            <CardContent
+              className="cursor-auto w-full"
+              onClick={() => router.push(`/post/${post.id}/comments`)}
+            >
               <p>{post.content}</p>
             </CardContent>
             <CardFooter className="flex justify-between">

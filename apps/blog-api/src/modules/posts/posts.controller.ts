@@ -17,6 +17,8 @@ import {
   createCommentPostSchema,
   CreatePostDto,
   createPostSchema,
+  DeleteCommentPostDto,
+  deleteCommentPostSchema,
   PostIdDto,
   postIdParamPostSchema,
 } from './dto/post.dto'
@@ -84,6 +86,20 @@ export class PostsController {
       userId: user.sub,
       content: createCommentDto.content,
       postId: postDto.postId,
+    })
+  }
+
+  @HttpCode(204)
+  @Delete('/:postId/comments/:commentId')
+  async deleteComment(
+    @Req() req: RequestWithUser,
+    @Param(new ZodValidationPipe(deleteCommentPostSchema)) deleteCommentDto: DeleteCommentPostDto,
+  ) {
+    const { user } = req
+    return this.postsService.deleteComment({
+      userId: user.sub,
+      postId: deleteCommentDto.postId,
+      commentId: deleteCommentDto.commentId
     })
   }
 }

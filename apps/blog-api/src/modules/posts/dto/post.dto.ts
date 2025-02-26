@@ -20,3 +20,14 @@ export const createCommentPostSchema = z.object({
 })
 
 export type CreateCommentPostDto = z.infer<typeof createCommentPostSchema>
+
+export const deleteCommentPostSchema = z.object({
+  postId: z.string().uuid({
+    message: 'Should send a uuid postId',
+  }),
+  commentId: z.string().uuid({
+    message: 'Should send a uuid commentId',
+  }),
+})
+
+export type DeleteCommentPostDto = z.infer<typeof deleteCommentPostSchema>

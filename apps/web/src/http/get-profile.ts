@@ -4,7 +4,7 @@ import { api } from './api-client'
 interface GetProfileResponse {
   user: {
     id: string
-    name: string | null
+    name: string
     email: string
     role: RoleEnum
     avatarUrl: string | null
