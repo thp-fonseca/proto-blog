@@ -22,17 +22,22 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useFormState } from "@/hooks/use-form-state";
 import { signInWithEmailAndPassword } from "./actions";
+import useUserSession from "@/lib/store";
 
 export function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const { setUser } = useUserSession();
 
   const t = useTranslations("AuthForm");
 
   const [{ errors, message, success }, handleSubmit, isPending] = useFormState(
     signInWithEmailAndPassword,
-    () => {
-      router.push("/feed");
+    (user) => {
+      if (user) {
+        setUser(user);
+        router.push("/feed");
+      }
     }
   );
 

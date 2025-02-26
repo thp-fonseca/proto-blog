@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { z } from 'zod'
 
 import { signInWithPassword } from '@/http/signin-with-password'
+import { getProfile } from '@/http/get-profile'
 
 const signInSchema = z.object({
   username: z
@@ -18,7 +19,6 @@ export async function signInWithEmailAndPassword(data: FormData) {
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
-
     return { success: false, message: null, errors }
   }
 
@@ -34,6 +34,9 @@ export async function signInWithEmailAndPassword(data: FormData) {
       path: '/',
       maxAge: 60 * 60 * 24 * 7, // 7 days
     })
+
+    const profile = await getProfile()
+    return { success: true, message: null, errors: null, user: profile.user }
   } catch (err) {
     if (err instanceof HTTPError) {
       const { message } = await err.response.json()
@@ -46,6 +49,4 @@ export async function signInWithEmailAndPassword(data: FormData) {
       errors: null,
     }
   }
-
-  return { success: true, message: null, errors: null }
 }

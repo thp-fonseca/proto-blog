@@ -20,7 +20,6 @@ import { formatDistanceToNow } from "date-fns";
 import { createCommentPost } from "@/http/create-comment-post";
 import { Heart, Trash2 } from "lucide-react";
 import { deleteComment } from "@/http/delete-comment";
-import { ConfirmDialog } from "@/components/confirm-dialog";
 import useUserSession from "@/lib/store";
 import { defineAbilityFor } from "@workspace/acl";
 
@@ -139,20 +138,14 @@ export default function PostComments() {
               {comment.likes}
             </Button>
             {canDeleteComment && (
-              <ConfirmDialog
-                trigger={
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    <Trash2 className="w-4 h-4 mr-2" />
-                  </Button>
-                }
-                title="Confirmar Exclusão"
-                description="Tem certeza que deseja excluir este comentário? Esta ação não pode ser desfeita."
-                onConfirm={() => handleDeleteComment(comment.id)}
-              />
+              <Button
+                onClick={() => handleDeleteComment(comment.id)}
+                variant="ghost"
+                size="icon"
+                className="text-red-600 hover:text-red-800"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+              </Button>
             )}
           </CardFooter>
         </Card>

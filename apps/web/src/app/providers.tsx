@@ -9,13 +9,10 @@ import useUserSession from "@/lib/store";
 import { getProfile } from "@/http/get-profile";
 
 const AuthProvider = ({ children }: Readonly<{ children: ReactNode }>) => {
-  const { user, setUser, logout } = useUserSession();
+  const { setUser, logout } = useUserSession();
   const router = useRouter();
 
   useEffect(() => {
-    // Se o usuário já está no estado, não faça a verificação novamente
-    if (user) return;
-
     const checkAuth = async () => {
       try {
         const response = await fetch('/api/auth/check-token');
@@ -39,8 +36,8 @@ const AuthProvider = ({ children }: Readonly<{ children: ReactNode }>) => {
       }
     };
 
-    setTimeout(() => {checkAuth()}, 1000);
-  }, [user, setUser, logout, router]);
+    checkAuth();
+  }, [setUser, logout, router]);
 
   return children;
 };

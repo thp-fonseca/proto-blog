@@ -8,4 +8,6 @@ db.createUser({
     pwd: process.env.MONGO_PASSWORD,
     roles: ["readWrite"],
 });
-db.createCollection("initializing", { capped: false });
+db.createCollection("users", { capped: false });
+db.createCollection("posts", { capped: false });
+db.createCollection("comments", { capped: false });

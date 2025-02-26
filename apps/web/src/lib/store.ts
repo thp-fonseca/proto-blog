@@ -1,4 +1,4 @@
-import { AppAbility, RoleEnum } from '@workspace/acl';
+import { RoleEnum } from '@workspace/acl';
 
 import {create} from 'zustand';
 import { createJSONStorage, persist } from "zustand/middleware";
@@ -13,7 +13,8 @@ type User = {
 
 type SessionStoreActions = {
   user: User | null;
-  setUser: (user: User) => void;
+  isAuthenticated: boolean
+  setUser: (user: User | null) => void;
   clearUser: () => void;
   logout: () => void;
 }
@@ -22,7 +23,8 @@ const useUserSession = create<SessionStoreActions>()(
   persist(
     (set) => ({
       user: null,
-      setUser: (user) => set({ user }),
+      isAuthenticated: false,
+      setUser: (user) => set({ user, isAuthenticated: !!user }),
       clearUser: () => set({ user: null }),
       logout: () => {
         set(() => ({ user: null }));

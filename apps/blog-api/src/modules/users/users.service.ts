@@ -9,7 +9,7 @@ import {
   generatePasswordHash,
   comparePassword,
 } from 'src/infra/crypto/crypto'
-import { Profile } from './types'
+import { UserProfileDto } from './dto/user-profile.dto'
 
 @Injectable()
 export class UsersService {
@@ -57,7 +57,7 @@ export class UsersService {
     return comparePassword(password, user.passwordHash, user.salt)
   }
 
-  async getProfile({username}: TokenPayloadUser): Promise<Profile> {
+  async getProfile({username}: TokenPayloadUser): Promise<UserProfileDto> {
     const user = await this.getUserByUsername(username)
     if(!user) throw new NotFoundException("User not found")
     return {

@@ -12,7 +12,7 @@ export function Sidebar() {
 
   const handleLogout = async () => {
     logout();
-
+    console.log(2)
     router.push("/api/auth/sign-out");
   };
 

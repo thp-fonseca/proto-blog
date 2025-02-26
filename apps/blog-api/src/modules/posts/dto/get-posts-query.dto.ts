@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger'
 import { z } from 'zod'
 
 export const GetPostsQuerySchema = z.object({
@@ -17,4 +18,14 @@ export const GetPostsQuerySchema = z.object({
     }),
 })
 
-export type GetPostsQueryDto = z.infer<typeof GetPostsQuerySchema>
+export class GetPostsQueryDto {
+  @ApiProperty({ example: 1, description: 'The page number', required: false })
+  page?: number
+
+  @ApiProperty({
+    example: 10,
+    description: 'The number of items per page',
+    required: false,
+  })
+  limit?: number
+}
