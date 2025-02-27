@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
 import * as mongoose from 'mongoose'
 import { User } from './user.schema'
 import { genUUID } from 'src/infra/crypto/crypto'
+import { Comment } from './comment.schema'
 
 export type PostDocument = mongoose.HydratedDocument<Post>
 
@@ -47,7 +48,7 @@ PostSchema.pre('deleteOne', async function(next) {
   const post = await this.model.findOne(this.getFilter());
   try {
     if (post) {
-      await mongoose.model('comments').deleteMany({ post: post._id });
+      await mongoose.model(Comment.name).deleteMany({ post: post._id }).exec();
     }
   } finally {
     next();
