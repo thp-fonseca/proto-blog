@@ -40,21 +40,21 @@ services:
     networks:
       - app-network
     
-  # frontend:
-  #   build:
-  #     context: .
-  #     dockerfile: ./apps/web/Dockerfile
-  #     args:
-  #       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
-  #   container_name: website
-  #   env_file: 
-  #     - .env
-  #   environment:
-  #     NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
-  #   ports:
-  #     - "3000:3000"
-  #   networks:
-  #     - app-network
+  frontend:
+    build:
+      context: .
+      dockerfile: ./apps/web/Dockerfile
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
+    container_name: website
+    env_file: 
+      - .env
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL}
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
 
 networks:
   app-network:
